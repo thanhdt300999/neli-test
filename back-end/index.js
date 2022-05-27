@@ -45,6 +45,10 @@ async function startApolloServer(typeDefs, resolvers) {
   const app = express();
   await server.start();
   server.applyMiddleware({ app });
+  const initDB = async () => {
+    await getDB()
+  }
+  initDB()
   app.listen("4000", () => {
     console.log(`🚀  Server ready at 4000${server.graphqlPath}`);
   });

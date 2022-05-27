@@ -8,18 +8,18 @@ const pool = mysql.createPool({
   port: 52000,
   multipleStatements: true,
 });
-
+const DROP_TABLE_TODO =  `DROP TABLE todo`
 const CREATE_TABLE_TODO = `
-CREATE TABLE todo (
+CREATE TABLE IF NOT EXISTS todo (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   description varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   isFinished tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO todo (description) VALUES ("Hello World");
-`;
 
+`;
+// INSERT INTO todo (description) VALUES ("Hello World");
 let dbInit = false;
 
 const getDB = async () => {
@@ -27,8 +27,8 @@ const getDB = async () => {
     return new Promise((resolve, reject) => {
       pool.query(CREATE_TABLE_TODO, (error) => {
         if (error) {
-          console.log(error)
-          return reject(error);
+          pool.query(DROP_TABLE_TODO);
+          pool.query(CREATE_TABLE_TODO);
         } else {
           console.log("MySQL is connected and setup");
           dbInit = true;
@@ -43,4 +43,5 @@ const getDB = async () => {
 
 module.exports = {
   getDB,
+  pool
 };

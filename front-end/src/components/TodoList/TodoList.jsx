@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import FormTodo from "../FormTodo/FormTodo";
 import TodoItem from "../TodoItem/TodoItem";
-
+// import gpl from 'graphql-tag';
+// import { graphql } from 'react-apollo';
 const fakeData = [
   { id: 1, description: "gfdgfgfdgdfgfdgr", isFinished: true },
   { id: 2, description: "Số 2", isFinished: false },
@@ -14,7 +15,17 @@ const fakeData = [
   { id: 9, description: "Số 9", isFinished: false },
 ];
 
-const TodoList = () => {
+// const Query = gpl`
+//   query {
+//     getTodos {
+//       id
+//       isFinished
+//       description
+//     }
+//   }
+// `;
+
+const TodoList = (prop) => {
   const [listTodo, setListTodo] = useState(fakeData);
   const [innerText, setInnerText] = useState("");
   const [action, setAction] = useState("");
@@ -31,7 +42,7 @@ const TodoList = () => {
   }
   return (
     <>
-      <div className="flex-1 flex flex-col gap-5 overflow-y-auto">
+      <div className="flex flex-col flex-1 gap-5 overflow-y-auto">
         {fakeData.map((todo) => (
           <TodoItem
             key={todo.id}
@@ -51,5 +62,5 @@ const TodoList = () => {
     </>
   );
 };
-
+// const TodoListComponent = graphql(Query)(TodoList);
 export default TodoList;
